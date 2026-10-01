@@ -1,0 +1,291 @@
+/* Injected into linkedin.com. Every selector is prefixed with .ctc- so nothing leaks
+   into LinkedIn's own styles. The red pen sits on top of the post; nothing here changes
+   the size of anything LinkedIn draws. */
+
+/* The handwriting is Kalam, by the Indian Type Foundry, under the SIL Open Font License
+   (fonts/OFL.txt). content.js registers it from memory as 'CTC Kalam', so the extension
+   exposes no files LinkedIn could probe for, and never fetches from a font service. */
+
+.ctc-anchor {
+  position: relative !important;
+}
+
+.ctc-veil,
+.ctc-mark {
+  --ctc-ink: #b8321f;
+  --ctc-muted: color-mix(in srgb, currentColor 62%, transparent);
+  --ctc-hand: 'CTC Kalam', 'Segoe Print', 'Bradley Hand', 'Comic Neue', cursive;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.ctc-veil[data-tone='dark'],
+.ctc-mark[data-tone='dark'] {
+  --ctc-ink: #f28b7d;
+  --ctc-page-ink: #fff;
+}
+
+/* ---------- the corrected post ---------- */
+
+/* Frosted paper laid over the post's text. The original shows through blurred and
+   crossed out, so its shape is there but its words don't compete with the translation. */
+.ctc-veil {
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 4px;
+  padding: var(--ctc-note-top, 8px) 16px 6px;
+  cursor: default;
+}
+
+.ctc-frost {
+  position: absolute;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+}
+
+/* Light over the words, so the struck-out original can still be made out. */
+.ctc-frost-text {
+  top: 0;
+  height: var(--ctc-split, 100%);
+  background: color-mix(in srgb, var(--ctc-cover, #fff) 70%, transparent);
+  backdrop-filter: blur(1.6px);
+}
+
+/* Heavy over images and video, which only get in the way of the handwriting. */
+.ctc-frost-media {
+  top: var(--ctc-split, 100%);
+  bottom: 0;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--ctc-cover, #fff) 55%, transparent);
+  backdrop-filter: blur(12px) saturate(0.85);
+}
+
+.ctc-scribbles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.ctc-scribbles path {
+  fill: none;
+  stroke: var(--ctc-ink);
+  stroke-width: 2.1px;
+  stroke-linecap: round;
+  opacity: 0.8;
+}
+
+/* The halo keeps the handwriting readable where it crosses the struck-out lines. */
+.ctc-note {
+  --ctc-halo: 0 0 2px var(--ctc-cover, #fff), 0 0 6px var(--ctc-cover, #fff), 0 0 12px var(--ctc-cover, #fff);
+  position: relative;
+  max-width: min(100%, 440px);
+  color: var(--ctc-ink);
+  text-align: center;
+  transform: rotate(var(--ctc-tilt, -2deg));
+}
+
+.ctc-note p {
+  margin: 0;
+}
+
+.ctc-says {
+  font-family: var(--ctc-hand);
+  font-size: 25px;
+  line-height: 1.12;
+  font-weight: 700;
+  text-wrap: balance;
+  text-shadow: var(--ctc-halo);
+}
+
+.ctc-tally {
+  margin-top: 2px !important;
+  font-family: var(--ctc-hand);
+  font-size: 15px;
+  line-height: 1.25;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-shadow: var(--ctc-halo);
+}
+
+/* Short posts leave less room under the header, so the writing steps down in size. */
+.ctc-compact {
+  gap: 2px;
+  padding-bottom: 2px;
+}
+
+.ctc-compact .ctc-says {
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+.ctc-compact .ctc-tally {
+  margin-top: 0 !important;
+  font-size: 11.5px;
+}
+
+.ctc-compact .ctc-button {
+  font-size: 11px;
+  padding: 1px 3px;
+}
+
+.ctc-tiny .ctc-says {
+  font-size: 14.5px;
+}
+
+.ctc-tiny .ctc-tally {
+  font-size: 10.5px;
+}
+
+.ctc-tiny .ctc-button {
+  font-size: 10.5px;
+  margin-left: 6px;
+}
+
+/* Sits on the word-count line, in LinkedIn's own type so it reads as a control. */
+.ctc-button {
+  margin: 0 0 0 10px;
+  padding: 2px 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: color-mix(in srgb, var(--ctc-page-ink, #000) 60%, transparent);
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, currentColor 40%, transparent);
+  text-underline-offset: 2px;
+  text-shadow: var(--ctc-halo);
+  cursor: pointer;
+  vertical-align: 1px;
+  transition: color 120ms ease-out;
+}
+
+.ctc-button:hover {
+  color: var(--ctc-page-ink, #000);
+  text-decoration-color: currentColor;
+}
+
+.ctc-button:focus-visible,
+.ctc-mark:focus-visible {
+  outline: 2px solid var(--ctc-ink);
+  outline-offset: 1px;
+  color: inherit;
+}
+
+/* ---------- after "Show original" ---------- */
+
+/* A small red squiggle in the corner writes the translation back on. */
+.ctc-mark {
+  position: absolute;
+  right: 10px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--ctc-ink);
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 120ms ease-out, background-color 120ms ease-out;
+}
+
+.ctc-mark:hover,
+.ctc-mark:focus-visible {
+  opacity: 1;
+  background: color-mix(in srgb, var(--ctc-ink) 10%, transparent);
+}
+
+.ctc-mark svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+}
+
+/* ---------- motion ---------- */
+
+/* Ready but not yet on screen: the post looks untouched until the reader gets there. */
+.ctc-waiting {
+  pointer-events: none;
+}
+
+.ctc-waiting > * {
+  opacity: 0;
+}
+
+/* The paper fades in, the pen crosses out each line, then writes the translation. */
+.ctc-landing > .ctc-frost {
+  animation: ctc-veil-in 200ms ease-out both;
+}
+
+.ctc-landing .ctc-scribbles path {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: ctc-strike 240ms calc(120ms + var(--i, 0) * 90ms) cubic-bezier(0.5, 0, 0.3, 1) forwards;
+}
+
+.ctc-landing .ctc-note {
+  animation: ctc-write 560ms 380ms cubic-bezier(0.4, 0, 0.3, 1) both;
+}
+
+.ctc-lifting > * {
+  animation: ctc-veil-out 180ms ease-in both;
+}
+
+@keyframes ctc-veil-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes ctc-veil-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes ctc-strike {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes ctc-write {
+  from {
+    clip-path: inset(-20% 100% -20% -2%);
+  }
+  to {
+    clip-path: inset(-20% -2% -20% -2%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ctc-landing > .ctc-frost,
+  .ctc-landing .ctc-note,
+  .ctc-lifting > * {
+    animation: none !important;
+  }
+
+  .ctc-landing .ctc-scribbles path {
+    animation: none !important;
+    stroke-dashoffset: 0;
+  }
+}
